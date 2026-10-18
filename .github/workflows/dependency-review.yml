@@ -11,6 +11,11 @@ jobs:
     name: Dependency Review
     runs-on: ubuntu-latest
     steps:
+      # The action reads config-file from the workspace, not via the API.
+      # Without a checkout the job fails immediately with ENOENT on
+      # ./.github/dependency-review-config.yml (observed on PR #313).
+      - uses: actions/checkout@v7
+
       - name: Review dependency changes
         uses: actions/dependency-review-action@v5
         with:
